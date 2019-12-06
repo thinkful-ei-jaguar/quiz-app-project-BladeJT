@@ -3,7 +3,7 @@
 /**
  * Example store structure
  */
-const store = {
+const STORE = {
   // 5 or more questions are required
   questions: [
     {
@@ -61,34 +61,48 @@ const store = {
   score: 0
 };
 
+let currentPage = 'startPage';
+
 // Our basic render function.  Ultimately generates our html.
 // Interacts with the STORE object on all but the start page.
 
+/*
 function render() {
   console.log('`render function` ran');
   const htmlString = '<p>Test html input</p>';
   $('main').html(htmlString);
 }
-/*
-function generateQuestionForm(question){
-  return `
-    HTML CODE HERE
-  `;
-}
-
-function generateQuestionAnswerForm(questionList){
-  const questions = questionlist.map((question)
-  => generateQuestionForm(question));
-  
-  return questions;
-}
-
-function render(){
-  const questionAnswerForm = generateQuestionAnswerForm(STORE);
-  
-  $('.js-question-answer-form').html(questionAnswerForm);
-}
 */
+
+function render(){  
+  console.log('`render function` ran');
+  const createdHtml = generateHtml(STORE);  
+  $('main').html(createdHtml);
+}
+
+function generateHtml(toBeCreated) {
+  console.log('generateHtml function ran');
+
+  
+  if (currentPage === 'startPage') {
+    console.log('generate start page html');
+  } else if (currentPage === 'questionPage') {
+    console.log('generate question page');
+  } else if (currentPPage === 'feedbackPage') {
+    console.log('generate feedback page');
+  } else {
+    console.log('generate finishPage');
+  }
+}
+  
+
+
+function generateQuestionForm(formInput){
+  console.log('generateQuestionForm function ran');
+  
+}
+
+
 //just added
 // startQuiz -to start submit begin quiz
 function startQuiz(){
