@@ -69,7 +69,26 @@ function render() {
   const htmlString = '<p>Test html input</p>';
   $('main').html(htmlString);
 }
+/*
+function generateQuestionForm(question){
+  return `
+    HTML CODE HERE
+  `;
+}
 
+function generateQuestionAnswerForm(questionList){
+  const questions = questionlist.map((question)
+  => generateQuestionForm(question));
+  
+  return questions;
+}
+
+function render(){
+  const questionAnswerForm = generateQuestionAnswerForm(STORE);
+  
+  $('.js-question-answer-form').html(questionAnswerForm);
+}
+*/
 //just added
 // startQuiz -to start submit begin quiz
 function startQuiz(){
