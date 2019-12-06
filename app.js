@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 /**
  * Example store structure
@@ -58,43 +59,64 @@ const store = {
   ],
   questionNumber: 0,
   score: 0
+};
 
-  //just added
-  // startQuiz -to start submit begin quiz
+// Our basic render function.  Ultimately generates our html.
+// Interacts with the STORE object on all but the start page.
+
+function render() {
+  console.log('`render function` ran');
+  const htmlString = '<p>Test html input</p>';
+  $('main').html(htmlString);
+}
+
+//just added
+// startQuiz -to start submit begin quiz
 function startQuiz(){
-
+  console.log('`startQuiz function` ran');
 }
 
 //disable other answers when submit answer
 
 //submit - submit answer button - will tell you correct answer and give fact to support
 function submitAnswer(){
-
+  console.log('`submitAnswer function` ran');
 }
 
 function showCorrectAnswer(){
-
+  console.log('`showCorrectAnswer function` ran');
 }
 function nextQuestion(){
-    
+  console.log('`nextQuestion function` ran');    
 }
 //keep track of score
 function keepScore(){
-
+  console.log('`keepScore function` ran');
 }
 //submit next question button takes you to next question or final results page
 
 // shows results gives opportunity to take quiz again
 function showResults(){
-
+  console.log('`showResults function` ran');
 }
 //retake quiz will take you back to start page.
 function retakeQuiz(){
-
+  console.log('`retakeQuiz function` ran');
 }
 
 
-};
+//The big function that calls the others
+function handleQuizApp() {
+  
+  render();
+  startQuiz();
+  submitAnswer();
+  nextQuestion();
+  retakeQuiz();
+}
+
+$(handleQuizApp);
+
 
 /**
  *
