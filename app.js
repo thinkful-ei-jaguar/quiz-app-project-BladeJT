@@ -6,28 +6,94 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
+      question: "Jaguars' spots resemble:",
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        'Roses',
+        'Smiley Faces',
+        'Javascript Code',
+        'Tulips'
       ],
-      correctAnswer: 'green'
+      correctAnswer: 'Roses'
     },
     {
-      question: 'What is the current year?',
+      question: 'The bite of a jaguar is strong enough to:',
       answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
+        "Crack a sea turtle's shell",
+        'Prepare your crab for dinner',
+        'Bite through a piece of paper',
+        'Puncture solid steel'
       ],
-      correctAnswer: '2019'
-    }
+      correctAnswer: "Crack a sea turtle's shell"
+    },
+    {
+      question: 'Do jaguars live alone, in small groups, or in big ones?',
+      answers: [
+        'alone',
+        'Small groups',
+        'Big ole groups',
+        'All of the above'
+      ],
+      correctAnswer: 'alone'
+    },
+    {
+      question: 'What scary ability do jaguars have?',
+      answers: [
+        'Able to climb trees',
+        'Able to breathe underwater',
+        'Able to write quiz apps',
+        'Able to operate heavy machinery'
+      ],
+      correctAnswer: 'Able to climb trees'
+    },
+    {
+      question: 'What do jaguars eat?',
+      answers: [
+        'Organic Lettuce',
+        'Other jaguars',
+        'Only turtles',
+        'Basically anything that moves (maybe including you)'
+      ],
+      correctAnswer: 'Basically anything that moves (maybe including you)'
+    },
   ],
   questionNumber: 0,
   score: 0
+
+  //just added
+  // startQuiz -to start submit begin quiz
+function startQuiz(){
+
+}
+
+//disable other answers when submit answer
+
+//submit - submit answer button - will tell you correct answer and give fact to support
+function submitAnswer(){
+
+}
+
+function showCorrectAnswer(){
+
+}
+function nextQuestion(){
+    
+}
+//keep track of score
+function keepScore(){
+
+}
+//submit next question button takes you to next question or final results page
+
+// shows results gives opportunity to take quiz again
+function showResults(){
+
+}
+//retake quiz will take you back to start page.
+function retakeQuiz(){
+
+}
+
+
 };
 
 /**
