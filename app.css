@@ -6,3 +6,29 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+  margin: 0 auto;
+}
+
+label, button {
+  display: block;
+  margin: 0 auto;
+}
+
+img {
+  width: 60%;
+}
+
+h2 {
+
+}
+
+.choices {
+  text-align: right;
+}
