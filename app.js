@@ -1,10 +1,8 @@
 /* eslint-disable no-undef */
 'use strict';
-/**
- * Example store structure
- */
+
+//The store where almost every variable lives.
 const STORE = {
-  // 5 or more questions are required
   questions: [
     {
       question: "Jaguars' spots resemble:",
@@ -61,18 +59,12 @@ const STORE = {
   score: 0
 };
 
+//This keeps track of what page we're on.  Maybe we should move this
+//into the STORE or track it by the "score."  For now we use this
+//global variable - which we know isn't the best practice.
 let currentPage = 'startPage';
 
-// Our basic render function.  Ultimately generates our html.
-// Interacts with the STORE object on all but the start page.
-
-/*
-function render() {
-  console.log('`render function` ran');
-  const htmlString = '<p>Test html input</p>';
-  $('main').html(htmlString);
-}
-*/
+// Our render function.  Calls the big boy html generation function.
 
 function render(){  
   //console.log('`render function` ran');
@@ -80,10 +72,12 @@ function render(){
   $('main').html(createdHtml);
 }
 
-function generateHtml(toBeCreated) {
-  //console.log('generateHtml function ran');
+//This is our big boy html generation function.
+//It chooses the appropriate html generation function
+//depending on which event listener function was activated.
 
-  
+function generateHtml(toBeCreated) {
+  //console.log('generateHtml function ran');  
   if (currentPage === 'startPage') {
     return startPage();
   } else if (currentPage === 'questionPage') {
@@ -95,9 +89,7 @@ function generateHtml(toBeCreated) {
   }
 }
   
-
-
-//This is called to display the startpage
+//This is called to create the html for the start page.
 function startPage(){
   return `
   <body>
@@ -112,9 +104,7 @@ function startPage(){
   console.log('`startQuiz function` ran');
 }
 
-//disable other answers when submit answer
-
-//submit - submit answer button - will tell you correct answer and give fact to support
+//This is called to create the html for the question pages.
 function questionPage(){
   return `
   <body>
@@ -160,6 +150,7 @@ function questionPage(){
   `;
 }
 
+//This is called to create the html for the results page.
 function resultsPage(){
   return `
   <body>
@@ -176,6 +167,7 @@ function resultsPage(){
   `;
 }
 
+//This is called to create the html for the feedback pages.
 function feedbackPage(){
   return `
   <body>
@@ -226,6 +218,7 @@ function feedbackPage(){
   `;
 }
 
+//This listens on the results page for clicks to restart the quiz.
 function resultsPageHandler() {
   $('main').on('click', '#restart-button', function() {
     console.log('restart button clicked');
@@ -237,6 +230,7 @@ function resultsPageHandler() {
   });
 }
 
+//This listens to the start page for clicks to start the quiz.
 function startPageHandler(){
   $('main').on('click', '#begin-button', function() {
     event.preventDefault();
@@ -251,8 +245,7 @@ function startPageHandler(){
   console.log('`startPageHandler function` ran');
 }
   
-
-// THIS IS WHERE WE WERE
+//This listens to the question page for clicks to submit an answer.
 function questionPageHandler(){
   console.log('`questionPageHandler function` ran');
   $('main').on('click', '#submit-answer-button', function() {
@@ -264,7 +257,6 @@ function questionPageHandler(){
     render();
   });     
 }
-
 
 //retake quiz will take you back to start page.
 function feedbackPageHandler(){
@@ -281,12 +273,8 @@ function feedbackPageHandler(){
   });
 }
 
-       
-
-
-
-
-// The big function that calls the others
+      
+// The big beefy grandaddy function that calls the others
 function handleQuizApp() {
   
   render();
