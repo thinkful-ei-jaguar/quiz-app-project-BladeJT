@@ -5,7 +5,7 @@
 const STORE = {
   questions: [
     {
-      question: "Jaguars' spots resemble:",
+      question: 'Jaguars\' spots resemble:',
       answers: [
         'Roses',
         'Smiley Faces',
@@ -245,13 +245,15 @@ function startPageHandler() {
 //This listens to the question page for clicks to submit an answer.
 function questionPageHandler(){
   console.log('`questionPageHandler function` ran');
-  let currentCorrectAnswer = STORE['questions'].correctAnswer;
+  let currentCorrectAnswer = STORE['questions'][STORE.questionNumber].correctAnswer;
+
+  console.log(`The current correct answer is: ${currentCorrectAnswer}`);
   //Here's where I'm stuck.  Need to capture the ".val" of
   //whichever radio button is selected when they hit
   //the submit-answer-button
   
   let radioValue = $('input.radio-button[name=answer]:checked').val();
-  console.log(radioValue);
+  console.log(`The value is: ${radioValue}`);
   
   $('main').on('click', '#submit-answer-button', function() {
     event.preventDefault();
@@ -272,6 +274,9 @@ function questionPageHandler(){
 //the user is on.
 function feedbackPageHandler(){
   $('main').on('click', '#next-question-button', function() {
+    let currentCorrectAnswer = STORE['questions'][STORE.questionNumber].correctAnswer;
+
+    console.log(`The current correct answer is: ${currentCorrectAnswer}`);
     event.preventDefault();
     console.log('next question button clicked');
     STORE.questionNumber += 1;
@@ -293,6 +298,7 @@ function resultsPageHandler() {
     event.preventDefault();
     currentPage = 'startPage';
     STORE.questionNumber = 0;
+    STORE.score = 0;
     render();
     
   });
