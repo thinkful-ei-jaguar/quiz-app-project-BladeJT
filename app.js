@@ -61,7 +61,7 @@ const STORE = {
   score: 0
 };
 
-let currentPage = 'resultsPage';
+let currentPage = 'startPage';
 
 // Our basic render function.  Ultimately generates our html.
 // Interacts with the STORE object on all but the start page.
@@ -75,13 +75,13 @@ function render() {
 */
 
 function render(){  
-  console.log('`render function` ran');
+  //console.log('`render function` ran');
   const createdHtml = generateHtml(STORE);  
   $('main').html(createdHtml);
 }
 
 function generateHtml(toBeCreated) {
-  console.log('generateHtml function ran');
+  //console.log('generateHtml function ran');
 
   
   if (currentPage === 'startPage') {
@@ -90,18 +90,11 @@ function generateHtml(toBeCreated) {
     return questionPage();
   } else if (currentPage === 'resultsPage') {
     return resultsPage();
-  } else {
+  } else if (currentPage === 'feedbackPage') { 
     return feedbackPage();
   }
 }
   
-
-
-function generateQuestionForm(formInput){
-  console.log('generateQuestionForm function ran');  
-}
-
-
 
 
 //This is called to display the startpage
@@ -161,7 +154,7 @@ function questionPage(){
         <p id = 'current-question'>Question #: x</span>
     </div>
     <!-- We will remove all anchors and use event listeners in the final app-->  
-    <button id = 'next-question-button'>Next Question</button>
+    <button id = 'submit-answer-button'>Submit Answer</button>
   </form>
 </body>
   `;
@@ -227,83 +220,80 @@ function feedbackPage(){
       </div>
       
       
-      <button id = 'submit-button'>Next question</button>
+      <button id = 'next-question-button'>Next question</button>
     
 </body>
   `;
 }
-function startQuiz() {
+
+function resultsPageHandler() {
   $('main').on('click', '#restart-button', function() {
-    event.preventDefault();
     console.log('restart button clicked');
+    event.preventDefault();
     currentPage = 'startPage';
-    render();
     STORE.questionNumber = 0;
+    render();
+    
   });
 }
 
-function submitAnswer(){
-  if ((STORE.questionNumber) < 6) {
-    $('main').on('click', '#begin-button', function() {
-      event.preventDefault();
-      console.log('begin button clicked');
-      currentPage = 'questionPage';
-      render();
-      STORE.questionNumber += 1;
-    });
-    //Need an else if?
-    $('main').on('click', '#submit-button', function() {
-      event.preventDefault();
-      console.log('next question button clicked');
-      currentPage = 'feedbackPage';
-      render();
-      STORE.questionNumber += 1;
-      console.log(STORE.questionNumber);
-    });
-  }
-  console.log('`submitAnswer function` ran');
+function startPageHandler(){
+  $('main').on('click', '#begin-button', function() {
+    event.preventDefault();
+    console.log('begin button clicked');
+    currentPage = 'questionPage';
+    STORE.questionNumber = 1;
+    console.log(STORE.questionNumber);
+    render();
+  });
+  
+  
+  console.log('`startPageHandler function` ran');
 }
   
 
-function showCorrectAnswer(){
-  console.log('`showCorrectAnswer function` ran');
+// THIS IS WHERE WE WERE
+function questionPageHandler(){
+  console.log('`questionPageHandler function` ran');
+  $('main').on('click', '#submit-answer-button', function() {
+    event.preventDefault();
+    console.log('submit answer button clicked');
+    STORE.questionNumber += 1;
+    console.log(STORE.questionNumber);
+    currentPage = 'feedbackPage';
+    render();
+  });     
 }
 
-function nextQuestion(){
-  console.log('`nextQuestion function` ran');
-  if ((STORE.questionNumber) < 6) {
-    $('main').on('click', '#next-question-button', function() {
-      event.preventDefault();
-      console.log('next question button clicked');
-      currentPage = 'questionPage';
-      render();
-    });     
-  }
-}
-//keep track of score
-function keepScore(){
-  console.log('`keepScore function` ran');
-}
-//submit next question button takes you to next question or final results page
 
-// shows results gives opportunity to take quiz again
-function showResults(){
-  console.log('`showResults function` ran');
-}
 //retake quiz will take you back to start page.
-function retakeQuiz(){
-  console.log('`retakeQuiz function` ran');
+function feedbackPageHandler(){
+  $('main').on('click', '#next-question-button', function() {
+    event.preventDefault();
+    console.log('next question button clicked');
+    if (STORE.questionNumber === 5) {
+      currentPage = 'resultsPage';
+      return render();
+    } else {
+      currentPage = 'questionPage';
+      return render();
+    }         
+  });
 }
+
+       
+
+
 
 
 // The big function that calls the others
 function handleQuizApp() {
   
   render();
-  startQuiz();
-  submitAnswer();
-  nextQuestion();
-  retakeQuiz();
+  startPageHandler();
+  questionPageHandler();
+  feedbackPageHandler();
+  resultsPageHandler();
 }
 
 $(handleQuizApp);
