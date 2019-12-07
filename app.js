@@ -61,7 +61,7 @@ const STORE = {
 
 //This keeps track of what page we're on.  Maybe we should move this
 //into the STORE or track it by the "score."  For now we use this
-//global variable - which we know isn't the best practice.
+//global variable - which we know isn't always the best practice.
 let currentPage = 'startPage';
 
 // Our render function.  Calls the big boy html generation function.
@@ -244,13 +244,15 @@ function startPageHandler() {
   
 //This listens to the question page for clicks to submit an answer.
 function questionPageHandler(){
+  console.log('`questionPageHandler function` ran');
   let currentCorrectAnswer = STORE['questions'].correctAnswer;
   //Here's where I'm stuck.  Need to capture the ".val" of
   //whichever radio button is selected when they hit
   //the submit-answer-button
-  let radioValue = $('input.radio-button[name=answer]:checked').val();
   
-  console.log('`questionPageHandler function` ran');
+  let radioValue = $('input.radio-button[name=answer]:checked').val();
+
+  
   $('main').on('click', '#submit-answer-button', function() {
     event.preventDefault();
     console.log('submit answer button clicked');
