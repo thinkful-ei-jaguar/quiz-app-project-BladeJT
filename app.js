@@ -91,6 +91,8 @@ function generateHtml(toBeCreated) {
   
 //This is called to create the html for the start page.
 function startPage(){
+  console.log('`startQuiz function` ran');
+
   return `
   <body>
   <h2>Test your jaguar knowledge!</h2>
@@ -101,7 +103,7 @@ function startPage(){
   <button id = 'begin-button'>Begin the quiz</button>
   
 </body>`;
-  console.log('`startQuiz function` ran');
+  
 }
 
 //This is called to create the html for the question pages.
@@ -124,22 +126,22 @@ function questionPage(){
     
     <!-- We'll clean this up with dynamic stuff later-->
     <label for = 'option1' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option1' value ='choice1' checked required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option1' value ='0' checked required>
       <span class = 'choices'>${answerIndexToDisplay[0]}</span>
     </label>
 
     <label for = 'option2' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option2' value = 'choice2' required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option2' value = '1' required>
       <span class = 'choices'>${answerIndexToDisplay[1]}</span>
     </label>
 
     <label for = 'option3' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option3' value = 'choice3' required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option3' value = '2' required>
       <span class = 'choices'>${answerIndexToDisplay[2]}</span>
     </label>  
 
     <label for = 'option4' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option4' value = 'choice4' required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option4' value = '3' required>
       <span class = 'choices'>${answerIndexToDisplay[3]}</span>
     </label>
 
@@ -241,42 +243,43 @@ function startPageHandler() {
   
   console.log('`startPageHandler function` ran');
 }
-  
+
 //This listens to the question page for clicks to submit an answer.
 function questionPageHandler(){
   console.log('`questionPageHandler function` ran');
-  let currentCorrectAnswer = STORE['questions'][STORE.questionNumber].correctAnswer;
 
-  console.log(`The current correct answer is: ${currentCorrectAnswer}`);
   //Here's where I'm stuck.  Need to capture the ".val" of
   //whichever radio button is selected when they hit
   //the submit-answer-button
   
-  let radioValue = $('input.radio-button[name=answer]:checked').val();
-  console.log(`The value is: ${radioValue}`);
-  
-  $('main').on('click', '#submit-answer-button', function() {
+  $('main').on('submit', 'form', function(event) {
     event.preventDefault();
     console.log('submit answer button clicked');
 
-    
-    if (radioValue === currentCorrectAnswer) {
+    let radioValue = parseInt(document.querySelector('input[name="answer"]:checked').value);
+    console.log(`The radioValue is: ${radioValue}.`);
+
+    let answerUserChose = STORE['questions'][STORE.questionNumber].answers[radioValue];
+    console.log(`The answer the user chose is: ${answerUserChose}`);
+
+    let currentCorrectAnswer = STORE['questions'][STORE.questionNumber].correctAnswer;
+    console.log(`The current correct answer is: ${currentCorrectAnswer}`);
+
+    if (answerUserChose === currentCorrectAnswer) {
       console.log('checked correct answer');
       STORE.score += 1;
     }
     currentPage = 'feedbackPage';
     render();
   });     
+
 }
 
 //This listens to the feedback page for clicks to go to the next
 //question or to the end of the quiz, depending on which question
 //the user is on.
 function feedbackPageHandler(){
-  $('main').on('click', '#next-question-button', function() {
-    let currentCorrectAnswer = STORE['questions'][STORE.questionNumber].correctAnswer;
-
-    console.log(`The current correct answer is: ${currentCorrectAnswer}`);
+  $('main').on('submit', 'form', function() {
     event.preventDefault();
     console.log('next question button clicked');
     STORE.questionNumber += 1;
