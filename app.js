@@ -245,14 +245,17 @@ function startPageHandler() {
 //This listens to the question page for clicks to submit an answer.
 function questionPageHandler(){
   let currentCorrectAnswer = STORE['questions'].correctAnswer;
+  //Here's where I'm stuck.  Need to capture the ".val" of
+  //whichever radio button is selected when they hit
+  //the submit-answer-button
+  let radioValue = $('input.radio-button[name=answer]:checked').val();
+  
   console.log('`questionPageHandler function` ran');
   $('main').on('click', '#submit-answer-button', function() {
     event.preventDefault();
     console.log('submit answer button clicked');
-    //Here's where I'm stuck.  Need to capture the ".val" of
-    //whichever radio button is selected when they hit
-    //the submit-answer-button
-    let radioValue = $('input.radio-button#answer').val();
+
+    
     if (radioValue === currentCorrectAnswer) {
       console.log('checked correct answer');
       STORE.score += 1;
