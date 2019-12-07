@@ -124,22 +124,22 @@ function questionPage(){
     
     <!-- We'll clean this up with dynamic stuff later-->
     <label for = 'option1' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option1' checked required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option1' value ='choice1' checked required>
       <span class = 'choices'>${answerIndexToDisplay[0]}</span>
     </label>
 
     <label for = 'option2' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option2' required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option2' value = 'choice2' required>
       <span class = 'choices'>${answerIndexToDisplay[1]}</span>
     </label>
 
     <label for = 'option3' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option3' required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option3' value = 'choice3' required>
       <span class = 'choices'>${answerIndexToDisplay[2]}</span>
     </label>  
 
     <label for = 'option4' class = 'answers'>
-      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option4' required>
+      <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option4' value = 'choice4' required>
       <span class = 'choices'>${answerIndexToDisplay[3]}</span>
     </label>
 
@@ -251,7 +251,7 @@ function questionPageHandler(){
   //the submit-answer-button
   
   let radioValue = $('input.radio-button[name=answer]:checked').val();
-
+  console.log(radioValue);
   
   $('main').on('click', '#submit-answer-button', function() {
     event.preventDefault();
