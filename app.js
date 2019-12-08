@@ -56,7 +56,9 @@ const STORE = {
     },
   ],
   questionNumber: 0,
-  score: 0
+  score: 0,
+  gotItRight: true,
+  answerUserChose: undefined
 };
 
 //This keeps track of what page we're on.  Maybe we should move this
@@ -67,7 +69,7 @@ let currentPage = 'startPage';
 // Our render function.  Calls the big boy html generation function.
 
 function render(){  
-  //console.log('`render function` ran');
+  console.log('`render function` ran');
   const createdHtml = generateHtml(STORE);  
   $('main').html(createdHtml);
 }
@@ -122,7 +124,7 @@ function questionPage(){
     <h2 class = 'question-text'>${questionToDisplay}</h2>
   </form>
 
-  <form class = 'radio-answers'>
+  <form class = 'radio-questions'>
     
     <!-- We'll clean this up with dynamic stuff later-->
     <label for = 'option1' class = 'answers'>
@@ -158,6 +160,7 @@ function questionPage(){
 
 //This is called to create the html for the feedback pages.
 function feedbackPage(){
+  console.log('feedbackPage function ran');
   let questionToDisplay = STORE['questions'][STORE.questionNumber - 1].question;
   let answerIndexToDisplay = STORE['questions'][STORE.questionNumber - 1].answers;
   let scoreSoFar = STORE.score;
@@ -176,40 +179,58 @@ function feedbackPage(){
     
       <!-- We'll clean this up with dynamic stuff later-->
       <label for = 'option1' class = 'answers'>
-        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option1' required disabled>
+        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option1' value = '0' required disabled>
         <span class = 'choices'>${answerIndexToDisplay[0]}</span>
       </label>
   
       <label for = 'option2' class = 'answers'>
-        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option2' required disabled>
+        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option2' value = '1' required disabled>
         <span class = 'choices'>${answerIndexToDisplay[1]}</span>
       </label>
   
       <label for = 'option3' class = 'answers'>
-        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option3' required disabled>
+        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option3' value = '2' required disabled>
         <span class = 'choices'>${answerIndexToDisplay[2]}</span>
       </label>  
   
       <label for = 'option4' class = 'answers'>
-        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option4' required disabled>
+        <input class = 'radio-button' type = 'radio' name = 'answer' id = 'option4' value = '3' required disabled>
         <span class = 'choices'>${answerIndexToDisplay[3]}</span>
       </label>
 
-      <label for = 'correct-answer' class = 'correct-answer'>
-        <span class = 'correct-answer-text'>That's right/Sorry, the correct answer is: (correct answer).</span>
-      </label>
+      ${didTheyGetItRight()}
   
       <div class = 'score-container'>
           <p id = 'current-score'>Your score so far: ${scoreSoFar} points out of 5</span>
           <p id = 'current-question'>Question #: ${currentQuestionNumber}</span>
       </div>
-      
+
       
       <button id = 'next-question-button'>Next question</button>
-    
+    </form>
 </body>
   `;
 }
+
+//Calls the store to see if they got it right on the question page, 
+//so that we can render the right html for the feedbackPage
+function didTheyGetItRight() {
+  let answer = STORE['questions'][STORE.questionNumber - 1].correctAnswer;
+  if (STORE.gotItRight === true) {
+    return `
+    <label for = 'correct-answer' class = 'correct-answer'>
+    <span class = 'correct-answer-text'>Congratulations! You chose the correct answer of "${answer}."</span>
+  </label>`;
+  }
+  else {
+    return `
+     <label for = 'correct-answer' class = 'correct-answer'>
+    <span class = 'correct-answer-text'>Sorry, you chose "${STORE.answerUserChose}" but the correct answer was: "${answer}."</span>
+  </label>
+  `;
+  }
+}
+
 
 //This is called to create the html for the results page.
 function resultsPage(){
@@ -247,43 +268,45 @@ function startPageHandler() {
 //This listens to the question page for clicks to submit an answer.
 function questionPageHandler(){
   console.log('`questionPageHandler function` ran');
-
-  //Here's where I'm stuck.  Need to capture the ".val" of
-  //whichever radio button is selected when they hit
-  //the submit-answer-button
   
-  $('main').on('submit', 'form', function(event) {
+  $('main').on('submit', 'form.radio-questions', function(event) {
     event.preventDefault();
     console.log('submit answer button clicked');
 
     let radioValue = parseInt(document.querySelector('input[name="answer"]:checked').value);
     console.log(`The radioValue is: ${radioValue}.`);
+      
 
-    let answerUserChose = STORE['questions'][STORE.questionNumber].answers[radioValue];
+    let answerUserChose = STORE['questions'][STORE.questionNumber-1].answers[radioValue];
     console.log(`The answer the user chose is: ${answerUserChose}`);
+    STORE.answerUserChose = answerUserChose;
 
-    let currentCorrectAnswer = STORE['questions'][STORE.questionNumber].correctAnswer;
+
+    let currentCorrectAnswer = STORE['questions'][STORE.questionNumber-1].correctAnswer;
     console.log(`The current correct answer is: ${currentCorrectAnswer}`);
 
     if (answerUserChose === currentCorrectAnswer) {
       console.log('checked correct answer');
       STORE.score += 1;
+      STORE.gotItRight = true;
+    } else {
+      STORE.gotItRight = false;
     }
     currentPage = 'feedbackPage';
-    render();
-  });     
+    console.log(`Question number is ${STORE.questionNumber}`);
+    return render();
+  });
+}     
 
-}
 
 //This listens to the feedback page for clicks to go to the next
 //question or to the end of the quiz, depending on which question
 //the user is on.
 function feedbackPageHandler(){
-  $('main').on('submit', 'form', function() {
+  $('main').on('submit', 'form.radio-answers', function() {
     event.preventDefault();
     console.log('next question button clicked');
     STORE.questionNumber += 1;
-    console.log(STORE.questionNumber);
     if (STORE.questionNumber === 6) {
       currentPage = 'resultsPage';
       return render();
