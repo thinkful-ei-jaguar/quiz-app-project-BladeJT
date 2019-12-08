@@ -14,21 +14,45 @@
 body {
   text-align: center;
   margin: 0 auto;
+  background-color: black;
 }
 
-label, button {
-  display: block;
+/*label, button {
+  display: inline-block;
   margin: 0 auto;
+}*/
+#begin-button, #submit-answer-button, #next-question-button, #restart-button {
+  width: 60%;
+  height: 
 }
 
 img {
   width: 60%;
+  border: 2pt solid lightgray;
 }
 
-h2 {
-  color: red;
+h1, h2 {
+  color: lightgray;
 }
 
-.choices {
-  
+.choices  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: lightgray;
+
+}
+
+.radio-answers {
+  display: inline;
+  flex-direction: column;
+  align-items: center;
+  color: lightgray;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: lightgray;
 }
